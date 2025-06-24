@@ -7,6 +7,7 @@
     2 Pseudo código de la implementación
 
 ## 3 Diagrama de la base de datos  
+[Click para ver](./anexos/bd_sushi.png)
 
 ## 4 Documentación del proyecto  
 
