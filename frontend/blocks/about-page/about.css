@@ -1,0 +1,187 @@
+.about-layout {      
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: calc(100vh - 17px);
+  box-sizing: border-box;
+  overflow: hidden;
+  padding: 0px 10px; /* espacio para simular el borde */
+}
+
+.about-layout__fondo{
+    flex:1;
+    background: 
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.0) 0%,
+      rgba(0, 0, 0, 0.0) 50%,
+      rgba(0, 0, 0, 0.7) 100%
+    ), url('/frontend/assets/images/about.jpg');
+    background-size: cover;
+    background-position: center;
+    border-right: 3px solid black;
+    border-radius: 10px 0 0 10px;
+    margin-bottom: 10px;
+}
+
+.about-layout__contenido {
+  flex: 1; /* Parte derecha */
+  color: white;
+  margin: 7px;
+  overflow-y: scroll; 
+  scrollbar-width: none; /* Ocultar la barra de desplazamiento en Firefox */
+  -ms-overflow-style: none;
+
+/*
+  background-color: #0A0B0A;
+  border: 2px solid gray;
+  border-radius: 10px;
+*/
+  
+}
+
+.about-layout__name{
+  width: 440px;
+  font-size: 5rem;
+  font-family: 'Playfair Display', serif;
+  color: #EFE7D2;
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 50px;
+  margin-left: 40px;
+}
+
+
+/*============================ texto y al lado imagen=============================================*/
+
+
+.about-layout__description1{
+  background-color: #0A0B0A; 
+  border: 2px solid gray;
+  border-radius: 10px;
+  padding: 20px 60px;
+  max-width: 415px;
+  max-height: 260px;
+}
+
+.about-layout__title{
+    font-size: 1.690rem;
+    padding-bottom: 48px;
+    font-family: 'Playfair Display', serif;
+    color: #EFE7D2;
+}
+
+.about-layout__text{    
+    font-size: 0.9rem;
+    line-height: 2;
+    font-family: 'Playfair Display', serif;
+    color: #EFE7D2;    
+
+}
+
+.about-layout__font{
+    display: flex;
+    margin-bottom: 16px;
+}
+
+.about-layout__containerimg{
+    margin-left: 16px;
+    
+}
+
+.about-layout__img{
+    border-radius: 10px;
+    width: 415px;
+    height: 303px;
+}
+
+
+/*==============los logros==============*/
+
+
+.about-layout__container{
+    display: flex;
+    color: #EFE7D2;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.about-layout__achieves1, .about-layout__achieves2, .about-layout__achieves3{
+    border: 2px solid gray;
+    border-radius: 10px;    
+    padding: 30px;
+    flex: 1 1 100%;
+}
+
+.about-layout__stars{
+    display: block; /* o inline-block */
+    margin: 0 auto;
+    width: 85px;
+}
+
+.about-layout__title2{
+    font-size: 1.390rem;
+    text-align: center;
+}
+
+.about-layout__minitext{
+    font-size: 0.7rem;
+    text-align: center;
+    width: 160px;
+    padding-left: 40px;
+}
+
+/*============================otra vez texto e imagen al lado=============================================*/
+
+.about-layout__font2{
+    display: flex;
+    margin-top: 16px;
+}
+
+.about-layout__description2{
+  background-color: #0A0B0A; /* Opcional: fondo negro translúcido */
+  color: #EFE7D2;
+  border: 2px solid gray;
+  border-radius: 10px;
+  padding: 20px 60px;
+  max-width: 415px;
+  max-height: 290px;
+}
+
+.about-layout__title3{
+    font-size: 1.690rem;
+    padding-bottom: 48px;
+}
+
+.about-layout__text2{    
+    font-size: 0.9rem;
+    line-height: 2;
+
+}
+
+.about-layout__containerimg2{
+    margin-right: 16px;
+    
+}
+
+.about-layout__img2{
+    border-radius: 10px;
+    width: 415px;
+    height: 335px;
+}
+
+/*================================footer========================*/
+
+.about-footer {
+    margin-top: 16px;
+    border: 2px solid gray;
+    border-radius: 10px;
+}
+
+.about-footer__text {
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  color: #EFE7D2;
+  font-size: 1rem;
+}
