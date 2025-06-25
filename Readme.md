@@ -120,3 +120,6 @@ Se validaron los flujos de navegación y sesión en el navegador.
 Se depuraron errores de conexión, validación y respuesta entre cliente y servidor.  
 
 ## 6 Link al servicio en vivo  
+
+## Link al figma
+[link al figma](https://www.figma.com/design/09cfPZcF3t5ddZAoiDKrxo/web-app-exam-1--Copy-?node-id=0-1&t=Wkpe86a32cCRoI5I-1)
