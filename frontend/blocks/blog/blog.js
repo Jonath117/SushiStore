@@ -54,7 +54,7 @@ class BlogPage extends HTMLElement {
 
         
         const componente = this.shadowRoot.getElementById("componente-detalle");
-        const favoriteBtn = this.shadowRoot.getElementById("add-favorite");        
+        //const favoriteBtn = this.shadowRoot.getElementById("add-favorite");        
         
         componente.addEventListener("click", (event) => {
             if (event.target.closest("#add-favorite")) {

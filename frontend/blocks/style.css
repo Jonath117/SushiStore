@@ -6,16 +6,15 @@
 @import url('contact/contact.css');
 @import url('blog/blog.css');
 
-/* Reset universal */
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* 🌐 HTML y body base */
 body {
-  background-color: white;
+  background-color: black;
   height: 100vh;
   width: 100%;  
   position: relative;
@@ -24,7 +23,7 @@ body {
   padding-top: 0.1px;  
 }
 
-/* Fondo decorativo con bordes internos redondeados */
+
 body::before {
   content: "";
   position: absolute;
@@ -43,7 +42,7 @@ body::before {
   background-size: cover;
   border-radius: 20px;
   z-index: -1;
-  pointer-events: none; /* Asegura que no interfiera con clics */
+  pointer-events: none; 
 }
 
 

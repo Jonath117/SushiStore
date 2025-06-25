@@ -50,7 +50,6 @@ const Router = {
 
     location.hash = route;
 
-    
   },
 };
 
