@@ -102,6 +102,18 @@ class ReservationPage extends HTMLElement {
   }
     connectedCallback() {
         document.documentElement.style.setProperty("--dynamic-background", "black");
+
+        const token = localStorage.getItem("token");
+        const nameLabel = this.shadowRoot.getElementById("name-reservation");
+        const phoneLabel = this.shadowRoot.getElementById("phone-reservation");
+        const emailLabel = this.shadowRoot.getElementById("email-reservation");
+
+        if(token){
+            nameLabel.style.display = "none";
+            phoneLabel.style.display = "none";
+            emailLabel.style.display = "none";
+        }
+    
   }
 }
 
