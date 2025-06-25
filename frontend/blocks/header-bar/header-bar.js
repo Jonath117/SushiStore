@@ -20,6 +20,7 @@ template.innerHTML = `
 
     <div class="icon-bar">
       <button id="register-btn" class="icon-bar__register">Registration</button>
+      <button id="cerrarSesion-btn" class="icon-bar__cerrarSesion">Cerrar Sesion</button>
       
       <button id="login-btn" class="icon-bar__btn" >
         <i class="icon-bar__icon fas fa-user"></i>
@@ -57,6 +58,7 @@ class HeaderBar extends HTMLElement {
     const registerBtn = this.shadowRoot.getElementById("register-btn");
     const loginBtn = this.shadowRoot.getElementById("login-btn");
     const carritoBtn = this.shadowRoot.getElementById("carrito-btn");
+    const cerrarSesionBtn = this.shadowRoot.getElementById("cerrarSesion-btn");
 
     const navigate = (route) => {
       window.dispatchEvent(new CustomEvent("navigate", { detail: route }));
@@ -100,9 +102,25 @@ class HeaderBar extends HTMLElement {
         navigate("home");
       }
     });
-    
-    }  
-}
 
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    registerBtn.style.display = "none";
+    cerrarSesionBtn.style.display = "inline-block";
+  } else {
+      registerBtn.style.display = "icon-bar__register";
+  }
+    
+  cerrarSesionBtn?.addEventListener("click", (e) => {
+    e.preventDefault();
+    localStorage.removeItem("token");
+    alert("Sesión cerrada.");
+    location.reload();
+  });  
+
+
+    }     
+}
 
 customElements.define("header-bar", HeaderBar);

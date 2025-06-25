@@ -12,6 +12,11 @@ import './blocks/login/login.js';
 import './blocks/cart/cart.js';
 import './blocks/blog-single/blog-single.js';
 
-import router from './services/router.js'; // ajusta la ruta si es distinta
+import router from './services/router.js';
 
-router.init(); // ¡ACTÍVALO!
+router.init();
+
+if (localStorage.getItem("token")) {
+  document.querySelector("login")?.remove();
+  document.querySelector("registration")?.remove();
+}

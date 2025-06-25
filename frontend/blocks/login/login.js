@@ -36,7 +36,7 @@ template.innerHTML = `
                 </div>
 
                 <div class="login-submit">
-                    <button type="submit" class="login-submit__button">REGISTER</button>
+                    <button type="submit" class="login-submit__button">LOGIN</button>
                 </div>
 
                 <a class="login-form__redirector" href="#" id="registration-button" >Go to registration instead</a>
@@ -70,7 +70,31 @@ class LoginPage extends HTMLElement {
         e.preventDefault();
         navigate("registration");
         });    
-  }  
+
+
+     this.shadowRoot.querySelector("form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const payload = {
+        email: this.shadowRoot.getElementById("email-login").value,
+        password: this.shadowRoot.getElementById("password-login").value,
+      };
+
+      const res = await fetch("http://localhost:3000/api/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await res.json();
+      if (res.ok) {
+        localStorage.setItem("token", result.token);
+        alert("Login exitoso");
+        location.reload();
+      } else {
+        alert(result.message || "Credenciales inválidas");
+      }
+    });
+  }
 }
 
 customElements.define("login-page", LoginPage);
