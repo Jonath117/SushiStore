@@ -192,7 +192,7 @@
 .favorite-icon {
     width: 18px;
     height: 18px;
-    fill: #ccc; /* Color inicial (no favorito) */
+    fill: #ccc; 
     stroke: #999;
     stroke-width: 1px;
     transition: all 0.3s ease;

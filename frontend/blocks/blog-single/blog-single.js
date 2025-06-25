@@ -25,6 +25,7 @@ class BlogSinglePage extends HTMLElement {
   }
     connectedCallback() {
         document.documentElement.style.setProperty("--dynamic-background", "black");
+       
   }  
 }
 

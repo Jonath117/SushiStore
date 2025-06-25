@@ -15,59 +15,65 @@ template.innerHTML = `
             <button class="menu-layout__btn"> SPECIAL ROLLS </button>
         </div>
 
-                <h1 class="menu-layout__title"> MAKI </h1>
-                <div class="menu-layout__table"> 
-                    <div class="menu-layout__image"></div>
-
-                    <div class="menu-layout__info">
-                        <h2 class="menu-layout__title2"> Title Product </h2>
-                        <div class="menu-layout__description">texto de descripcion afsodjifb </div>
-                    </div>
-                        <div class="menu-layout__price">
-                            5$
+                <h1 class="menu-layout__title"> <- MAKI -> </h1>
+                    <div class="menu-layout__table" id="product-component"> 
+                        <div class="menu-layout__image">
+                            <button class="add-button" aria-label="Agregar al carrito" id="agregar">
+                                <svg class="add-icon" viewBox="0 0 24 24">
+                                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                                </svg>
+                            </button>                              
                         </div>
-                </div>
-                <div class="menu-layout__table"> 
-                    <div class="menu-layout__image"></div>
 
-                    <div class="menu-layout__info">
-                        <h2 class="menu-layout__title2"> Title Product </h2>
-                        <div class="menu-layout__description">texto de descripcion afsodjifb </div>
-                    </div>
-                        <div class="menu-layout__price">
-                            5$
+                        <div class="menu-layout__info">
+                            <h2 class="menu-layout__title2"> Title Product </h2>
+                            <div class="menu-layout__description">texto de descripcion afsodjifb </div>
                         </div>
-                </div>
-
-                <h1 class="menu-layout__title"> URAMAKI </h1>
-                <div class="menu-layout__table"> 
-                    <div class="menu-layout__image"></div>
-
-                    <div class="menu-layout__info">
-                        <h2 class="menu-layout__title2"> Title Product </h2>
-                        <div class="menu-layout__description">texto de descripcion afsodjifb </div>
+                            <div class="menu-layout__price">
+                                5$
+                            </div>
                     </div>
-                        <div class="menu-layout__price">
-                            5$
+                    <div class="menu-layout__table" id="product-component">  
+                        <div class="menu-layout__image"></div>
+
+                        <div class="menu-layout__info">
+                            <h2 class="menu-layout__title2"> Title Product </h2>
+                            <div class="menu-layout__description">texto de descripcion afsodjifb </div>
                         </div>
-                </div>
-
-                <h1 class="menu-layout__title"> SPECIAL ROLLS </h1>            
-                <div class="menu-layout__table"> 
-                    <div class="menu-layout__image"></div>
-
-                    <div class="menu-layout__info">
-                        <h2 class="menu-layout__title2"> Title Product </h2>
-                        <div class="menu-layout__description">texto de descripcion afsodjifb </div>
+                            <div class="menu-layout__price">
+                                5$
+                            </div>
                     </div>
-                        <div class="menu-layout__price">
-                            5$
+
+                <h1 class="menu-layout__title"> <- URAMAKI -> </h1>
+                    <div class="menu-layout__table" id="product-component"> 
+                        <div class="menu-layout__image"></div>
+
+                        <div class="menu-layout__info">
+                            <h2 class="menu-layout__title2"> Title Product </h2>
+                            <div class="menu-layout__description">texto de descripcion afsodjifb </div>
                         </div>
-                </div>
+                            <div class="menu-layout__price">
+                                5$
+                            </div>
+                    </div>
+
+                <h1 class="menu-layout__title"> <- SPECIAL ROLLS -> </h1>            
+                    <div class="menu-layout__table" id="product-component"> 
+                        <div class="menu-layout__image"></div>
+
+                        <div class="menu-layout__info">
+                            <h2 class="menu-layout__title2"> Title Product </h2>
+                            <div class="menu-layout__description">texto de descripcion afsodjifb </div>
+                        </div>
+                            <div class="menu-layout__price">
+                                5$
+                            </div>
+                    </div>
             </div>
             </div>
             <div class="footer">
-                <h2 class="footer-text">Licensing Styleguide </h2>
+                <h2 class="footer-text">Licensing  Styleguide </h2>
             </div>            
     </div>   
 </div>
@@ -80,6 +86,30 @@ class MenuPage extends HTMLElement {
   }
     connectedCallback() {
         document.documentElement.style.setProperty("--dynamic-background", "black");
+
+        const productBtn = this.shadowRoot.getElementById("product-component");
+
+        productBtn.addEventListener("click", (event) => {
+            if (event.target.closest(".add-button")) {
+                return;
+            }
+            const menuLayout = productBtn.closest(".menu-layout");
+            const fondo = menuLayout.querySelector(".menu-layout__fondo");
+            const name = menuLayout.querySelector(".menu-layout__name");
+            
+            fondo.style.backgroundImage = `
+                linear-gradient(
+                    to bottom,
+                    rgba(0, 0, 0, 0.0) 0%,
+                    rgba(0, 0, 0, 0.0) 50%,
+                    rgba(0, 0, 0, 0.0) 100%
+                ), url('/frontend/assets/images/detail-item.jpg')
+            `;           
+            
+            
+            name.textContent = "SPICY TUNA MAKI";
+        })
+
   }  
 }
 

@@ -64,12 +64,10 @@ export function renderInitialHome() {
   const header = document.createElement("header-bar");
   const footer = document.createElement("footer-element");
 
-    // Aplica la clase de animación a cada componente
   sidebar.classList.add('fade-in');
   header.classList.add('fade-in');
   footer.classList.add('fade-in');
   
-  // Opcional: Retraso escalonado para cada elemento
   header.style.animationDelay = '0.1s';
   sidebar.style.animationDelay = '0.2s';
   footer.style.animationDelay = '0.3s';

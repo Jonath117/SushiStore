@@ -19,8 +19,8 @@ template.innerHTML = `
     </nav>
 
     <div class="icon-bar">
-      <button id="register-btn" class="icon-bar__register">Registration</button>
-      <button id="cerrarSesion-btn" class="icon-bar__cerrarSesion">Cerrar Sesion</button>
+      <button id="register-btn" class="icon-bar__register">REGISTRATION</button>
+      <button id="cerrarSesion-btn" class="icon-bar__cerrarSesion">LOG OUT</button>
       
       <button id="login-btn" class="icon-bar__btn" >
         <i class="icon-bar__icon fas fa-user"></i>
