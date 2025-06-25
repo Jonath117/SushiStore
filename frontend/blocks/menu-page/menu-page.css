@@ -9,6 +9,7 @@
   padding: 0px 10px; /* espacio para simular el borde */
 }
 
+
 .menu-layout__fondo{
     flex:1;
     background: 
@@ -47,8 +48,8 @@
 }
 
 .menu-layout__table {
-  margin-left: 130px;
-  margin-right: 130px;
+  margin-left: 120px;
+  margin-right: 120px;
   display: flex;
   align-items: center;
   gap: 20px;

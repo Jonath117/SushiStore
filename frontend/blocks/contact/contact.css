@@ -55,7 +55,7 @@
   grid-template-columns: repeat(2, 1fr); /* 2 columnas */
   grid-template-rows: auto auto; /* 2 filas */
   max-width: 920px; /* Ajusta según necesidad */
-  margin-left: 16px; /* Centrado */
+  margin-left: 10px; /* Centrado */
 }
 
 .contact-layout__description1{
