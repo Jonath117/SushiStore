@@ -8,7 +8,11 @@ template.innerHTML = `
     </div>
 
     <div class="reservation-layout__contenido">
-        <h1 class="reservation-layout__title"> RESERVATION </h1>
+        <arrow-page>
+            <h1 slot="title" class="reservation-layout__title">
+                RESERVATION             
+            </h1>
+        </arrow-page>
         <div class="reservation-layout__description">Secure your spot at Qitchen, where execptional sushi and a remarkabel dining experience await. </div>
         
             <form class="reservation-form">
@@ -86,9 +90,7 @@ template.innerHTML = `
                 </div>
             </form>
 
-            <div class="footer">
-                <h2 class="footer-text">Licensing Styleguide </h2>
-            </div>      
+            <footer-principal></footer-principal>     
         </div>
         
     </div>

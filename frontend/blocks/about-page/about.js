@@ -42,7 +42,12 @@ template.innerHTML = `
                     <img class="about-layout__img2" src="/frontend/assets/images/about-3.jpg"></img>
                 </div>
                     <div class="about-layout__description2">
-                        <h2 class="about-layout__title3">OUR HISTORY</h2>
+                        <div class="title-container">
+                            <img src="./assets/images/Grid.png"  class="about-layout__icon">
+                            <h2 class="about-layout__title3">OUR HISTORY</h2>
+                            <img src="./assets/images/Grid.png"  class="about-layout__icon2">
+                        </div>
+
                         <p class="about-layout__text2">Founded with passion for culinary excellence. Qitchen's journey began in the heart of Prague. Over years, it evolved into a haven for sushi enthusiasts. Celebrated for its arful mastery and devotion to redefining gastronomy.</p>
                     </div>
             </div>

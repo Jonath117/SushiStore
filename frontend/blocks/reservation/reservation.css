@@ -35,6 +35,8 @@
   background-color: #0A0B0A; /* Opcional: fondo negro translúcido */
   border: 2px solid gray;
   border-radius: 10px;
+
+  max-width: 863px;
   margin-bottom: 81px;
 }
 
@@ -51,8 +53,8 @@
 .reservation-layout__title {
     text-align: center;
     font-size: 2rem;
-    margin-top: 50px;
-    margin-bottom: 15px;
+    margin: 30px 0;
+
 }
 
 .reservation-layout__description {
@@ -135,22 +137,3 @@
   justify-content: center;
 }
 
-
-/*===================================footer================*/
-
-.footer {
-  position: absolute;
-  bottom: 21px;
-  margin-left: -33px;
-  width: 965px;
-  border: 2px solid gray;
-  border-radius: 10px;
-  background-color: #0A0B0A;
-}
-
-.footer-text {
-  text-align: center;
-  font-family: 'Playfair Display', serif;
-  color: #EFE7D2;
-  font-size: 1rem;
-}

@@ -10,12 +10,14 @@ template.innerHTML = `
 
     <div class="cart-contenido">
         <div class="cart-contenido__container">
-            <h1 class="cart-container__title"><-- MY CART --></h1>
-            <div class="footer">
-                <h2 class="footer-text">Licensing Styleguide </h2>
-            </div>                  
-            
+            <arrow-page>
+                <h1 slot="title" class=cart-container__title">
+                    MY CART
+                </h1>
+            </arrow-page>
+        
         </div>        
+            <footer-principal></footer-principal>            
     </div>
 
 </div>

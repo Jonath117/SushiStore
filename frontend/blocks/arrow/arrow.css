@@ -1,0 +1,25 @@
+.arrow-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.menu-layout_arrow{
+  margin-right: 15px;
+  width: 100px;
+  height: 32px;
+}
+
+.menu-layout_arrow2{
+  margin-left: 15px;
+  width: 100px;
+  height: 32px;
+  transform: rotate(180deg);
+}
+
+.title {
+    margin: 0 1rem;
+}
+
+

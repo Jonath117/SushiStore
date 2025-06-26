@@ -23,6 +23,7 @@
     border-right: 3px solid black;
     border-radius: 10px 0 0 10px;
     margin-bottom: 10px;
+    
 }
 
 .about-layout__contenido {
@@ -38,6 +39,8 @@
   border: 2px solid gray;
   border-radius: 10px;
 */
+  max-width: 925px;
+  margin-left: 16px;
   
 }
 
@@ -151,6 +154,7 @@
 
 .about-layout__title3{
     font-size: 1.690rem;
+    text-align: center;
     padding-bottom: 48px;
 }
 
@@ -171,6 +175,29 @@
     height: 335px;
 }
 
+
+.title-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.about-layout__icon{
+  width: 32px;
+  height: 32px;
+}
+
+.about-layout__icon, .about-layout__icon2{
+  margin-top: 20px;
+  margin-right: 10px;
+  margin-left: 10px;
+  width: 32px;
+  height: 32px;
+}
+
+.about-layout__icon2{
+  transform: rotate(180deg);    
+}
 /*================================footer========================*/
 
 .about-footer {

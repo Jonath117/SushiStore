@@ -33,6 +33,8 @@
   background-color: black;
   border: 2px solid gray;
   border-radius: 10px;
+
+  max-width: 930px;
   margin-bottom: 76px;
 
 }

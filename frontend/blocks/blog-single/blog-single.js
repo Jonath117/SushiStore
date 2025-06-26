@@ -9,9 +9,8 @@ template.innerHTML = `
 
     <div class="blog-layout__contenido">
         
-        <div class="blog-footer">
-            <h2 class="blog-footer__text">Licensing Styleguide </h2>
-        </div>        
+
+    <footer-principal></footer-principal>
         
     </div>
 

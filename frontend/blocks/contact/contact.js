@@ -11,7 +11,11 @@ template.innerHTML = `
     <div class="contact-layout__contenido">
         <div class="contact-layout__font">
             <div class="contact-layout__description1">
-                <h2 class="contact-layout__title"><-- OPENING HOURS --></h2>
+                <div class="title-container">
+                    <img src="./assets/images/Grid.png"  class="contact-layout__icon">
+                    <h2 class="contact-layout__title">OPENING HOURS</h2>
+                    <img src="./assets/images/Grid.png"  class="contact-layout__icon2">
+                </div>
                 <p class="contact-layout__text">Monday ----------------------------- 16:00 - 22:30</p>
                 <p class="contact-layout__text">Tuesday ---------------------------- 16:00 - 22:30</p>
                 <p class="contact-layout__text">Wednesday -------------------------- 16:00 - 22:30</p>
@@ -37,7 +41,11 @@ template.innerHTML = `
             </div>
 
             <div class="contact-layout__getintouch">
-                <h2 class="contact-layout__title"><-- GET IN TOUCH --></h2>
+                <div class="title-container">
+                    <img src="./assets/images/Grid.png"  class="contact-layout__icon">
+                    <h2 class="contact-layout__title3">GET IN TOUCH</h2>
+                    <img src="./assets/images/Grid.png"  class="contact-layout__icon2">
+                </div>
                 <p class="contact-layout__text">ADDRES ------------- 23 Greenfield Avenue, 120 00</p>
                 <p class="contact-layout__text">PHONE --------------------------- +49 1234 56789</p>
                 <p class="contact-layout__text">EMAIL --------------------- email@example.com</p>
@@ -57,7 +65,9 @@ template.innerHTML = `
 
             </div>            
 
-        </div>        
+        </div>   
+        
+        <footer-principal></footer-principal>
     </div>
 
 </div>

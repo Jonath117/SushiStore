@@ -15,7 +15,11 @@ template.innerHTML = `
             <button class="menu-layout__btn"> SPECIAL ROLLS </button>
         </div>
 
-                <h1 class="menu-layout__title"> <- MAKI -> </h1>
+                    <arrow-page>
+                        <h1 slot="title" class="menu-layout__title">
+                            MAKI             
+                        </h1>
+                    </arrow-page>
                     <div class="menu-layout__table" id="product-component"> 
                         <div class="menu-layout__image">
                             <button class="add-button" aria-label="Agregar al carrito" id="agregar">
@@ -45,7 +49,11 @@ template.innerHTML = `
                             </div>
                     </div>
 
-                <h1 class="menu-layout__title"> <- URAMAKI -> </h1>
+                    <arrow-page>
+                        <h1 slot="title" class="menu-layout__title">
+                            URAMAKI             
+                        </h1>
+                    </arrow-page>
                     <div class="menu-layout__table" id="product-component"> 
                         <div class="menu-layout__image"></div>
 
@@ -58,7 +66,11 @@ template.innerHTML = `
                             </div>
                     </div>
 
-                <h1 class="menu-layout__title"> <- SPECIAL ROLLS -> </h1>            
+                    <arrow-page>
+                        <h1 slot="title" class="menu-layout__title">
+                            SPECIAL ROLLS            
+                        </h1>
+                    </arrow-page>         
                     <div class="menu-layout__table" id="product-component"> 
                         <div class="menu-layout__image"></div>
 
@@ -68,13 +80,11 @@ template.innerHTML = `
                         </div>
                             <div class="menu-layout__price">
                                 5$
-                            </div>
+                        </div>
                     </div>
             </div>
-            </div>
-            <div class="footer">
-                <h2 class="footer-text">Licensing  Styleguide </h2>
-            </div>            
+        </div>    
+        <footer-principal></footer-principal>    
     </div>   
 </div>
 `;

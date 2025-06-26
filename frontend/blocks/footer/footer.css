@@ -4,6 +4,12 @@
     position: absolute;
     bottom: 0;
     right: 0;
-    margin-right: 485px;
-    margin-bottom: 30px;
+    
+    border: 3px;
+    border-radius: 15px 0 0 10px;
+    margin-right: 475px;
+    margin-bottom: 10px;
+
+    padding: 10px;
+    background-color: black;
 }

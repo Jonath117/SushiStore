@@ -11,6 +11,8 @@ import './blocks/registration/registration.js';
 import './blocks/login/login.js';
 import './blocks/cart/cart.js';
 import './blocks/blog-single/blog-single.js';
+import './blocks/arrow/arrow.js';
+import './blocks/footer-principal/footer-principal.js';
 
 import router from './services/router.js';
 

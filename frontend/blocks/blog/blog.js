@@ -9,8 +9,14 @@ template.innerHTML = `
     </div>
 
     <div class="blog-layout__contenido">
-        <h1 class="blog-container__title">BEHIND THE SCENES</h1>
-        <h1 class="blog-container__title2">& LATEST NEWS</h1>
+
+        <arrow-page>
+            <h1 slot="title" class="blog-container__title">
+                BEHIND THE SCENES & LATEST NEWS
+            </h1>
+        </arrow-page>  
+
+
         <div class="blog-layout__categorias">
             <button class="blog-layout__btn"> ALL NEWS </button>
             <button class="blog-layout__btn"> FAVORITIES </button>
@@ -35,9 +41,7 @@ template.innerHTML = `
             </div>
         </div>
         
-        <div class="blog-footer">
-            <h2 class="blog-footer__text">Licensing Styleguide </h2>
-        </div>        
+        <footer-principal></footer-principal>
         
     </div>
 

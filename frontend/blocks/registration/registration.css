@@ -37,10 +37,13 @@
   display: flex;
   margin-left: 8px;
   margin-right: 8px;
+  padding: 30px;
 
   /*background-color: #0A0B0A;*/
   border: 2px solid gray;
   border-radius: 10px;
+
+  max-width: 870px;
   margin-bottom: 77px;
 }
 
@@ -147,21 +150,4 @@
 
 .registration-form__redirector::hover {
     cursor: pointer;
-}
-
-.footer {
-  position: absolute;
-  bottom: 19px;
-  margin-left: -128px;
-  width: 940px;
-  border: 2px solid gray;
-  border-radius: 10px;
-  background-color: #0A0B0A;
-}
-
-.footer-text {
-  text-align: center;
-  font-family: 'Playfair Display', serif;
-  color: #EFE7D2;
-  font-size: 1rem;
 }

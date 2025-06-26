@@ -1,0 +1,27 @@
+.footer {
+  position: absolute;
+  bottom: 21px;
+  margin-left: -338px;
+  right: 11px;
+  width: 930px;
+  border: 2px solid gray;
+  border-radius: 10px;
+  background-color: #0A0B0A;
+  display: flex;
+  justify-content: center;
+}
+
+.footer-text {
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  color: #EFE7D2;
+  font-size: 1rem;
+  
+}
+
+.icon-footer{
+    width: 24px;
+    height: 24px;
+    margin-top: 15px;
+    margin: auto 20px;
+}

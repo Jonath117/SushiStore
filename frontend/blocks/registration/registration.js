@@ -10,7 +10,11 @@ template.innerHTML = `
 
     <div class="registration-contenido">
         <div class="registration-contenido__container">
-            <h1 class="registration-container__title"><-- REGISTRATION --></h1>
+            <arrow-page>
+                <h1 slot="title" class="registration-container__title">
+                    REGISTRATION
+                </h1>
+            </arrow-page>            
 
             <form class="registration-form">
                 <div class="registration-form__group">
@@ -66,14 +70,12 @@ template.innerHTML = `
                 </div>
 
                 <a class="registration-form__redirector" href="#" id="login-button" >Go to login instead</a>
-            </form>
-
-            <div class="footer">
-                <h2 class="footer-text">Licensing Styleguide </h2>
-            </div>                  
-            
+                </form>
+                          
         </div>        
     </div>
+
+    <footer-principal></footer-principal> 
 
 </div>
 `;
