@@ -72,12 +72,48 @@
 }
 
 
-
 .menu-layout__title2 {
-  font-size: 1rem;
-  margin: 0;
-  color: #EFE7D2;
+  position: relative;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  max-width: 170px;
+}
 
+.menu-layout__title2::after {
+  content: "";
+  position: absolute;
+  bottom: 0.35em; /* Alineación vertical con el texto */
+  left: 100%;
+  right: -260px; /* Longitud más corta que la versión anterior */
+  height: 1px;
+  background: linear-gradient(to right, #EFE7D2 75%, transparent 75%);
+  background-size: 4px 1px; /* Puntos más juntos */
+  background-repeat: repeat-x;
+}
+
+.menu-layout__price {
+  position: relative;
+  padding-left: 10px; /* Espacio antes del precio */
+}
+
+/* .menu-layout__price::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -200px; 
+  right: 100%;
+  height: 1px;
+  background: #EFE7D2;
+  transform: translateY(-50%);
+} */
+
+
+.menu-layout__info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
 }
 
 .menu-layout__image {
@@ -90,22 +126,14 @@
   overflow: hidden;
 
 }
-
-.menu-layout__info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 5px;
-}
-
 .menu-layout__description {
-  color: #EFE7D2;
-  font-size: 0.80rem;
+  color: white;
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
 .menu-layout__price {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: bold;
   color: #EFE7D2;
   min-width: 60px;

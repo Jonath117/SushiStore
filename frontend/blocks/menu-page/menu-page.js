@@ -31,11 +31,11 @@ template.innerHTML = `
 
                         <div class="menu-layout__info">
                             <h2 class="menu-layout__title2"> Title Product </h2>
-                            <div class="menu-layout__description">texto de descripcion afsodjifb </div>
+                            <div class="menu-layout__description">texto de descripcion afsodjifb dfdfd fd fdsf ds f s fknadg ha hb hb bhb bhb hgftbct c   fvghnhjfdfd </div>
                         </div>
-                            <div class="menu-layout__price">
-                                5$
-                            </div>
+                        <div class="menu-layout__price">
+                            <span class="price-value">$5</span>
+                        </div>
                     </div>
                     <div class="menu-layout__table" id="product-component">  
                         <div class="menu-layout__image"></div>
