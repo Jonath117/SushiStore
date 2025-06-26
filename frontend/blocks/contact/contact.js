@@ -46,6 +46,7 @@ template.innerHTML = `
                     <h2 class="contact-layout__title3">GET IN TOUCH</h2>
                     <img src="./assets/images/Grid.png"  class="contact-layout__icon2">
                 </div>
+
                 <p class="contact-layout__text">ADDRES ------------- 23 Greenfield Avenue, 120 00</p>
                 <p class="contact-layout__text">PHONE --------------------------- +49 1234 56789</p>
                 <p class="contact-layout__text">EMAIL --------------------- email@example.com</p>
