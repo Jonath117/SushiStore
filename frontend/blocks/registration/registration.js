@@ -130,7 +130,7 @@ class RegistrationPage extends HTMLElement {
         if (res.ok) {
             localStorage.setItem("token", result.token);
             alert("Registro exitoso");
-            window.location.reload(); // o redirecciona
+            window.location.reload(); // o redirecciona si ocupo
         } else {
             alert(result.message || "Error en el registro");
         }
