@@ -41,11 +41,49 @@
   margin-bottom: 78px;
 }
 
+
 .menu-layout__title {
-    text-align: center;
-    font-size: 3rem;
-    margin-top: 80px;
-    margin-bottom: 80px;
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 80px;
+  margin-bottom: 80px;
+}
+
+.menu-icons{
+  display: flex;
+  justify-content: space-between; /* Separa los grupos izquierda/derecha */
+  align-items: flex-end; /* Alinea todos los items en la parte inferior */
+  position: relative;
+  width: 100%;
+  margin-top: 600px;
+}
+
+.left-group {
+  display: flex;
+  align-items: flex-end;
+  margin-left: 40px;
+}
+
+.menu-layout__name{
+  font-size: 3rem;
+  color: #EFE7D2;
+  width: 470px;
+  margin: 0;
+}
+
+.menu-icon1, 
+.menu-icon2 {
+  /* Estilos para tus íconos */
+  width: 30px;
+  height: 30px;
+  background-color: #EFE7D2;
+}
+
+.menu-icon2 {
+  margin-right: 40px; /* Espaciado derecho similar al izquierdo */
+}
+.add-button2{
+  border-radius: 50%;
 }
 
 
@@ -158,16 +196,6 @@
     color: black;
 }
 
-.menu-layout__name{
-  font-size: 5rem;
-  color: #EFE7D2;
-  position: absolute;
-  bottom: 0;
-  margin-bottom: 50px;
-  margin-left: 40px;
-  width: 580px;
-}
-
 
 /*============================================agregate icon =====================*/
 
@@ -188,7 +216,7 @@
     padding: 0;
 }
 
-.add-button:hover {
+.add-button, .add-button2:hover {
     background: rgba(255, 255, 255, 0.9);
     transform: scale(1.1);
 }
