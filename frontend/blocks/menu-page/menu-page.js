@@ -14,12 +14,13 @@ template.innerHTML = `
             <button class="menu-layout__btn"> URAMAKI </button>
             <button class="menu-layout__btn"> SPECIAL ROLLS </button>
         </div>
-
+            <div style="display: none;">
                     <arrow-page>
                         <h1 slot="title" class="menu-layout__title">
                             MAKI             
                         </h1>
                     </arrow-page>
+
                     <div class="menu-layout__table" id="product-component"> 
                         <div class="menu-layout__image">
                             <button class="add-button" aria-label="Agregar al carrito" id="agregar">
@@ -36,57 +37,12 @@ template.innerHTML = `
                                     <span class="price-value">$5</span>
                                 </div>
                             </div>
-                            <div class="menu-layout__description">texto de descripcion afsodjifb dfdfd fd fdsf ds f s fknadg ha hb hb bhb bhb hgftbct c   fvghnhjfdfd </div>
+                            <div class="menu-layout__description">texto de descripcion</div>
                         </div>
-                    </div>
-                    <div class="menu-layout__table" id="product-component">  
-                        <div class="menu-layout__image"></div>
+                    </div> 
+            </div>    
 
-                        <div class="menu-layout__info">
-                            <h2 class="menu-layout__title2"> Title Product </h2>
-                            <div class="menu-layout__description">texto de descripcion afsodjifb </div>
-                        </div>
-                            <div class="menu-layout__price">
-                                5$
-                            </div>
-                    </div>
-
-                    <arrow-page>
-                        <h1 slot="title" class="menu-layout__title">
-                            URAMAKI             
-                        </h1>
-                    </arrow-page>
-                    <div class="menu-layout__table" id="product-component"> 
-                        <div class="menu-layout__image"></div>
-
-                        <div class="menu-layout__info">
-                            <h2 class="menu-layout__title2"> Title Product </h2>
-                            <div class="menu-layout__description">texto de descripcion afsodjifb </div>
-                        </div>
-                            <div class="menu-layout__price">
-                                5$
-                            </div>
-                    </div>
-
-                    <arrow-page>
-                        <h1 slot="title" class="menu-layout__title">
-                            SPECIAL ROLLS            
-                        </h1>
-                    </arrow-page>         
-                    <div class="menu-layout__table" id="product-component"> 
-                        <div class="menu-layout__image"></div>
-
-                        <div class="menu-layout__info">
-                            <h2 class="menu-layout__title2"> Title Product </h2>
-                            <div class="menu-layout__description">texto de descripcion afsodjifb </div>
-                        </div>
-                            <div class="menu-layout__price">
-                                5$
-                        </div>
-                    </div>
-            </div>
-        </div>    
-        <footer-principal></footer-principal>    
+        <footer-principal> </footer-principal>    
     </div>   
 </div>
 `;
@@ -96,33 +52,78 @@ class MenuPage extends HTMLElement {
         super();
         this.attachShadow({ mode: "open" }).appendChild(template.content.cloneNode(true));
   }
-    connectedCallback() {
+  
+    async  connectedCallback() {
         document.documentElement.style.setProperty("--dynamic-background", "black");
 
-        const productBtn = this.shadowRoot.getElementById("product-component");
+        await this.renderProductsByCategory(1, "MAKI");
+        await this.renderProductsByCategory(2, "URAMAKI");
+        await this.renderProductsByCategory(3, "SPECIAL ROLLS");              
+    }  
+    async renderProductsByCategory(category_Id, category_Name){
+        try {
+            const res = await fetch(`http://localhost:3000/api/products/category/${category_Id}`);
+            const products =  await res.json();
 
-        productBtn.addEventListener("click", (event) => {
-            if (event.target.closest(".add-button")) {
-                return;
-            }
-            const menuLayout = productBtn.closest(".menu-layout");
-            const fondo = menuLayout.querySelector(".menu-layout__fondo");
-            const name = menuLayout.querySelector(".menu-layout__name");
-            
-            fondo.style.backgroundImage = `
-                linear-gradient(
-                    to bottom,
-                    rgba(0, 0, 0, 0.0) 0%,
-                    rgba(0, 0, 0, 0.0) 50%,
-                    rgba(0, 0, 0, 0.0) 100%
-                ), url('/frontend/assets/images/detail-item.jpg')
-            `;           
-            
-            
-            name.textContent = "SPICY TUNA MAKI";
-        })
+            const container = document.createElement("div");
+            const title = document.createElement("arrow-page");
 
-  }  
-}
+            title.innerHTML = `<h1 slot="title" class="menu-layout__title">${category_Name}</h1>`;
+            container.appendChild(title);
+
+            const template = this.shadowRoot.getElementById("product-component");
+
+            products.forEach(product => {
+                const clone = template.cloneNode(true);
+                clone.style.display = "flex";
+
+                clone.querySelector(".title-container__title2").textContent = product.name;
+                clone.querySelector(".price-value").textContent = `$${product.price}`;
+                clone.querySelector(".menu-layout__description").textContent = product.description;
+
+                const img = document.createElement("img");
+                img.src = product.image;
+                img.alt = product.name;
+                img.style.width = "150px";
+                clone.querySelector(".menu-layout__image").prepend(img);
+
+                clone.dataset.productName = product.name;
+                clone.dataset.productImage = product.image;
+
+
+                clone.addEventListener("click", (event) => {
+                    const clickedProduct = event.target.closest(".menu-layout__table");
+                    if (event.target.closest(".add-button")) {
+                        return;
+                    }
+
+                    const productName = clickedProduct.dataset.productName;
+                    const productImage = clickedProduct.dataset.productImage;
+
+                    const fondo = this.shadowRoot.querySelector(".menu-layout__fondo");
+                    const name = this.shadowRoot.querySelector(".menu-layout__name");            
+                    
+                    fondo.style.backgroundImage = `
+                        linear-gradient(
+                            to bottom,
+                            rgba(0, 0, 0, 0.0) 0%,
+                            rgba(0, 0, 0, 0.0) 50%,
+                            rgba(0, 0, 0, 0.0) 100%
+                        ), url(${productImage})
+                    `;           
+                    name.textContent = productName;
+                });  
+
+                container.appendChild(clone);
+            });
+
+            this.shadowRoot.querySelector(".menu-layout__contenido").appendChild(container);
+
+        } catch (err) {
+            console.error("error al traer los productos: ", err);
+        }
+    }
+
+}   
 
 customElements.define("menu-page", MenuPage);
