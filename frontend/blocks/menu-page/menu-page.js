@@ -32,7 +32,10 @@ template.innerHTML = `
 
                         <div class="menu-layout__info">
                             <div class="title-container">
-                                <h2 class="title-container__title2"> Title Product</h2>
+                                <div class="title-group">
+                                    <h2 class="title-container__title2">Title Product</h2>
+                                    <img src="./assets/pngs/leaf.png" class="title-container__vegan" alt="Icono vegano">
+                                </div>
                                 <div class="title-container__price">                            
                                     <span class="price-value">$5</span>
                                 </div>
