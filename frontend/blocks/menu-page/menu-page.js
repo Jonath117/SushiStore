@@ -27,7 +27,7 @@ template.innerHTML = `
             <button class="menu-layout__btn" data-category="SPECIAL ROLLS"> SPECIAL ROLLS </button>
         </div>
         
-        <div class="product-templates-hidden" style="display: none;">
+        <div class="product-templates-hidden" style="display: none;" id="product-item-template">
             <arrow-page>
                 <h1 slot="title" class="menu-layout__title">MAKI</h1>
             </arrow-page>
@@ -35,8 +35,8 @@ template.innerHTML = `
             <div class="menu-layout__table product-item-template"> 
                 <div class="menu-layout__image">
                     <button class="add-button" aria-label="Agregar al carrito"> <svg class="add-icon" viewBox="0 0 24 24">
-                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
-                        </svg>
+                                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                            </svg>
                     </button>
                 </div>
 
@@ -56,8 +56,7 @@ template.innerHTML = `
         </div>
         
         <div id="products-display-area"></div> 
-
-        <footer-principal> </footer-principal>
+        <div id="scroll-sentinel" style="height: 10px; background: transparent;"></div> <footer-principal> </footer-principal>
     </div>
 </div>
 `;
@@ -66,8 +65,14 @@ class MenuPage extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: "open" }).appendChild(template.content.cloneNode(true));
-        this.allProducts = [];
+        this.allProducts = []; 
+        this.displayedProducts = []; 
         this.currentProductDisplayed = null;
+        this.currentIndex = 0; 
+        this.batchSize = 6;
+        this.loading = false;
+        this.observer = null;
+        this.sentinel = null;
     }
 
     async connectedCallback() {
@@ -79,9 +84,16 @@ class MenuPage extends HTMLElement {
         this.addToCartTopButton = this.shadowRoot.getElementById("add-to-cart-top-button");
         this.categoryButtons = this.shadowRoot.querySelectorAll(".menu-layout__categorias .menu-layout__btn");
         this.productsDisplayArea = this.shadowRoot.getElementById("products-display-area");
+        this.sentinel = this.shadowRoot.getElementById("scroll-sentinel"); 
 
         await this.loadAllProducts();
-        this.renderProducts(this.allProducts);
+        
+        this.displayedProducts = [...this.allProducts];
+        this.currentIndex = 0;
+        this.productsDisplayArea.innerHTML = "";
+        
+        this.setupIntersectionObserver(); 
+        this.showNextBatch();
 
         this.resetFondoAndTitle();
 
@@ -97,6 +109,12 @@ class MenuPage extends HTMLElement {
                 this.addToCart(this.currentProductDisplayed);
             }
         });
+    }
+
+    disconnectedCallback() {
+        if (this.observer) {
+            this.observer.disconnect();
+        }
     }
 
     resetFondoAndTitle() {
@@ -126,6 +144,9 @@ class MenuPage extends HTMLElement {
         for (const cat of categories) {
             try {
                 const res = await fetch(`http://localhost:3000/api/products/category/${cat.id}`);
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
                 const products = await res.json();
                 products.forEach(p => this.allProducts.push({ ...p, category: cat.name }));
             } catch (err) {
@@ -134,69 +155,101 @@ class MenuPage extends HTMLElement {
         }
     }
 
-    renderProducts(productsToRender) {
-        this.productsDisplayArea.innerHTML = "";
-        
-        const productTemplate = this.shadowRoot.querySelector(".product-item-template");
-
-     
-        const groupedProducts = productsToRender.reduce((acc, product) => {
-            (acc[product.category] = acc[product.category] || []).push(product);
-            return acc;
-        }, {});
-
-        for (const categoryName in groupedProducts) {
-            const productsInThisCategory = groupedProducts[categoryName];
-
-            const categorySection = document.createElement("div");
-            categorySection.classList.add("category-section");
-
-            const title = document.createElement("arrow-page");
-            title.innerHTML = `<h1 slot="title" class="menu-layout__title">${categoryName}</h1>`;
-            categorySection.appendChild(title);
-
-            productsInThisCategory.forEach(product => {
-                const clone = productTemplate.cloneNode(true);
-                clone.style.display = "flex"; // Mostrar el clon
-
-                clone.querySelector(".title-container__title2").textContent = product.name;
-                clone.querySelector(".price-value").textContent = `$${product.price}`;
-                clone.querySelector(".menu-layout__description").textContent = product.description;
-
-                const veganIconProduct = clone.querySelector(".title-container__vegan");
-                if (product.vegetarian) {
-                    veganIconProduct.style.display = "inline-block";
-                } else {
-                    veganIconProduct.style.display = "none";
-                }
-
-                const img = document.createElement("img");
-                img.src = product.image;
-                img.alt = product.name;
-                img.style.width = "150px";
-                clone.querySelector(".menu-layout__image").prepend(img);
-
-                clone.dataset.productId = product.id; 
-                clone.dataset.productName = product.name;
-                clone.dataset.productPrice = product.price;
-                clone.dataset.productImage = product.image;
-                clone.dataset.productDescription = product.description;
-                clone.dataset.productCategory = product.category;
-                clone.dataset.productVegetarian = product.vegetarian;
-
-                clone.addEventListener("click", (event) => {
-                    if (event.target.closest(".add-button")) {
-                        this.addToCart(product); 
-                        return;
-                    }
-
-                    this.updateFondoAndTitle(product);
-                });
-
-                categorySection.appendChild(clone);
-            });
-            this.productsDisplayArea.appendChild(categorySection);
+    setupIntersectionObserver() {
+        if (this.observer) {
+            this.observer.disconnect(); 
         }
+
+        this.observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && !this.loading) {
+                this.showNextBatch();
+            }
+        }, {
+            root: this.productsDisplayArea, 
+            rootMargin: "0px 0px 100px 0px",
+            threshold: 0.1
+        });
+
+        if (this.sentinel) {
+            this.observer.observe(this.sentinel);
+        }
+    }
+
+    showNextBatch() {
+        this.loading = true;
+
+        const startIndex = this.currentIndex;
+        let endIndex = this.currentIndex + this.batchSize;
+        
+        let batch;
+        let shouldRepeat = false;
+
+        if (startIndex >= this.displayedProducts.length) {
+            this.currentIndex = 0;
+            startIndex = this.currentIndex;
+            endIndex = this.currentIndex + this.batchSize;
+            shouldRepeat = true; 
+        }
+
+        batch = this.displayedProducts.slice(startIndex, endIndex);
+
+        if (batch.length < this.batchSize && this.displayedProducts.length > 0) {
+            const remainingNeeded = this.batchSize - batch.length;
+            const repeatedPart = this.displayedProducts.slice(0, remainingNeeded);
+            batch = batch.concat(repeatedPart);
+            this.currentIndex = remainingNeeded;
+        } else {
+             this.currentIndex = endIndex;
+        }
+
+
+        batch.forEach(product => {
+            const clone = this.shadowRoot.querySelector("#product-item-template .product-item-template").cloneNode(true);
+            clone.style.display = "flex";
+
+            clone.querySelector(".title-container__title2").textContent = product.name;
+            clone.querySelector(".price-value").textContent = `$${product.price}`;
+            clone.querySelector(".menu-layout__description").textContent = product.description;
+
+            const veganIconProduct = clone.querySelector(".title-container__vegan");
+            if (product.vegetarian) {
+                veganIconProduct.style.display = "inline-block";
+            } else {
+                veganIconProduct.style.display = "none";
+            }
+
+            const img = document.createElement("img");
+            img.src = product.image;
+            img.alt = product.name;
+            img.style.width = "150px";
+            clone.querySelector(".menu-layout__image").prepend(img);
+
+            clone.dataset.productId = product.id; 
+            clone.dataset.productName = product.name;
+            clone.dataset.productPrice = product.price;
+            clone.dataset.productImage = product.image;
+            clone.dataset.productDescription = product.description;
+            clone.dataset.productCategory = product.category;
+            clone.dataset.productVegetarian = product.vegetarian;
+
+            clone.addEventListener("click", (event) => {
+                if (event.target.closest(".add-button")) {
+                    this.addToCart(product); 
+                    return;
+                }
+                this.updateFondoAndTitle(product);
+            });
+
+            this.productsDisplayArea.appendChild(clone);
+        });
+        
+        if (this.observer && this.sentinel) {
+            this.observer.unobserve(this.sentinel); 
+            this.productsDisplayArea.appendChild(this.sentinel);
+            this.observer.observe(this.sentinel); 
+        }
+
+        this.loading = false;
     }
 
     updateFondoAndTitle(product) {
@@ -226,19 +279,25 @@ class MenuPage extends HTMLElement {
         this.addToCartTopButton.style.display = "block";
     }
 
-
     filterProducts(category) {
-        let filtered = [];
+        if (this.observer) {
+            this.observer.disconnect();
+        }
+        
         if (category.toLowerCase() === "all") {
-            filtered = this.allProducts;
+            this.displayedProducts = [...this.allProducts];
             this.resetFondoAndTitle();
         } else {
-            filtered = this.allProducts.filter(product => product.category === category);
+            this.displayedProducts = this.allProducts.filter(product => product.category === category);
             this.veganIconTop.innerHTML = ""; 
             this.addToCartTopButton.style.display = "none";
             this.currentProductDisplayed = null; 
         }
-        this.renderProducts(filtered);
+
+        this.currentIndex = 0; 
+        this.productsDisplayArea.innerHTML = ""; 
+        this.setupIntersectionObserver(); 
+        this.showNextBatch();
     }
 
     addToCart(product) {

@@ -14,9 +14,11 @@ import './blocks/blog-single/blog-single.js';
 import './blocks/arrow/arrow.js';
 import './blocks/footer-principal/footer-principal.js';
 
+
 import router from './services/router.js';
 
 router.init();
+
 
 if (localStorage.getItem("token")) {
   document.querySelector("login")?.remove();

@@ -123,3 +123,7 @@ Se depuraron errores de conexión, validación y respuesta entre cliente y servi
 
 ## Link al figma
 [link al figma](https://www.figma.com/design/09cfPZcF3t5ddZAoiDKrxo/web-app-exam-1--Copy-?node-id=0-1&t=Wkpe86a32cCRoI5I-1)
+
+## link al examen
+[link](https://docs.google.com/document/d/1BQeJ9sp0XHyqnA4Yir3fXNYh26ojz-BkHmEYLtC9jz8/edit?usp=sharing)
+direccion ip: 3.83.45.198
