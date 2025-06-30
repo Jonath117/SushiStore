@@ -2,8 +2,6 @@ import express from "express";
 import userRouter from "./routers/userRouter.js";
 import productRouter from "./routers/productRouter.js";
 import blogRouter from "./routers/blogRouter.js";
-import dotenv from "dotenv";
-dotenv.config();
 
 const router = express.Router();
 
