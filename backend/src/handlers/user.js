@@ -56,7 +56,10 @@ export const loginUser = async (req, res) => {
     name: user.name
   });
 
-  res.status(200).json({ token });
+  res.status(200).json({ 
+    token,
+    userId: user.id
+   });
 };
 
 export const getUserProfile = async (req, res) => {

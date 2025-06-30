@@ -90,11 +90,13 @@ class LoginPage extends HTMLElement {
       const result = await res.json();
       if (res.ok) {
         localStorage.setItem("token", result.token);
+        localStorage.setItem('loggedInUserId', result.userId);
         alert("Login exitoso");
         location.reload();
-      } else {
-        alert(result.message || "Credenciales inválidas");
-      }
+        } else {
+            alert(result.message || "Credenciales inválidas");
+        }
+    console.log(result);
     });
   }
 }

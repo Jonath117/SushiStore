@@ -9,7 +9,6 @@ const Router = {
     registration: "registration-page",
     login: "login-page",
     carrito: "cart-page",
-    blog_single: "blog-single"
   },
 
   init() {
@@ -23,33 +22,60 @@ const Router = {
       this.navigate(route);
     });
 
- 
     const initialRoute = location.hash.slice(1);
-    if (initialRoute && this.routes[initialRoute]) {
+    if (initialRoute) {
       this.navigate(initialRoute);
+    } else {
+      this.navigate("home"); 
     }
   },
 
   navigate(route) {
-    const tagName = this.routes[route];
     const root = document.getElementById("main-container");
-
-    if (route === "home") {
-      renderInitialHome();
-      location.hash = "";
+    if (!root) {
+      console.error("No se encontró el elemento #main-container");
       return;
     }
 
+    root.innerHTML = "";
 
-    if (tagName && root) {
-      root.innerHTML = ""; 
+    let tagName = null;
+    let dynamicId = null;
+    let isEditMode = false;
+
+    if (route.startsWith('blog_single_')) {
+      const parts = route.split('_');
+      if (parts.length >= 3) {
+        dynamicId = parseInt(parts[2]);
+        isEditMode = parts[3] === 'edit'; 
+        
+        tagName = "blog-single"; 
+        location.hash = route; 
+        
+        const page = document.createElement(tagName);
+        page.classList.add("fade-in");
+        root.appendChild(page);
+        return;
+      }
+    }
+
+
+    if (route === "home") {
+      renderInitialHome();
+      return;
+    }
+
+    tagName = this.routes[route];
+
+    if (tagName) {
       const page = document.createElement(tagName);
       page.classList.add("fade-in");
       root.appendChild(page);
+      location.hash = route; 
+    } else {
+      root.innerHTML = '<h1>Página no encontrada</h1><p>La URL que intentas acceder no existe.</p>';
+      console.warn(`Ruta no reconocida: ${route}`);
     }
-
-    location.hash = route;
-
   },
 };
 
@@ -58,7 +84,7 @@ export function renderInitialHome() {
   if (!root) return;
 
   root.innerHTML = "";
-  
+
   const sidebar = document.createElement("side-bar");
   const header = document.createElement("header-bar");
   const footer = document.createElement("footer-element");
@@ -66,7 +92,7 @@ export function renderInitialHome() {
   sidebar.classList.add('fade-in');
   header.classList.add('fade-in');
   footer.classList.add('fade-in');
-  
+
   header.style.animationDelay = '0.1s';
   sidebar.style.animationDelay = '0.2s';
   footer.style.animationDelay = '0.3s';
@@ -74,8 +100,7 @@ export function renderInitialHome() {
   root.appendChild(sidebar);
   root.appendChild(header);
   root.appendChild(footer);
-  
-}
 
+}
 
 export default Router;

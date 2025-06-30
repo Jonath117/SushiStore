@@ -115,6 +115,7 @@ class HeaderBar extends HTMLElement {
   cerrarSesionBtn?.addEventListener("click", (e) => {
     e.preventDefault();
     localStorage.removeItem("token");
+    localStorage.removeItem("loggedInUserId");
     alert("Sesión cerrada.");
     location.reload();
   });  
