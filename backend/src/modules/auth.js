@@ -9,9 +9,13 @@ export const comparePasswords = async (password, hashedPassword) => {
   return await bcrypt.compare(password, hashedPassword);
 };
 
-if (!process.env.JWT_SECRET) {
-  throw new Error('JWT_SECRET no está definido en .env');
-}
+const getJwtSecret = () => {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    throw new Error('JWT_SECRET no está definido en .env');
+  }
+  return secret;
+};
 
 // 3. Generación de JWT
 export const createJWT = (user) => {
@@ -21,7 +25,7 @@ export const createJWT = (user) => {
       email: user.email,
       name: user.name
     },
-    process.env.JWT_SECRET,
+    getJwtSecret(),
     { expiresIn: '7d' }
   );
 };
@@ -36,7 +40,7 @@ export const protect = async (req, res, next) => {
   const token = bearer.split(' ')[1];
 
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    const payload = jwt.verify(token, getJwtSecret());
     req.user = payload;
     next();
   } catch (err) {
