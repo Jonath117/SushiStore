@@ -126,4 +126,6 @@ Se depuraron errores de conexión, validación y respuesta entre cliente y servi
 
 ## link al examen
 [link](https://docs.google.com/document/d/1BQeJ9sp0XHyqnA4Yir3fXNYh26ojz-BkHmEYLtC9jz8/edit?usp=sharing)
+
 direccion ip: 3.83.45.198
+
