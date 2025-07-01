@@ -22,6 +22,8 @@ pageTemplate.innerHTML = `
 
         <div class="blog-articles-container">
             </div>
+
+        <div class="blog-articles-conainer__sentinel" id="scroll-sentinel" style="height: 10px; background: transparent;"></div>
         
         <footer-principal></footer-principal>
     </div>
@@ -56,16 +58,42 @@ class BlogPage extends HTMLElement {
         super();
         this.attachShadow({ mode: "open" }).appendChild(pageTemplate.content.cloneNode(true));
         this.blogsContainer = this.shadowRoot.querySelector(".blog-articles-container");
-        this.favoriteBlogs = new Set();
         this.loggedInUserId = null;
+
+        this.blogsContainer = null;
+        this.sentinel = null;
+
+        this.allBlogs = [];
+        this.displayedBlogs = [];
+        this.loggedInUserId = null;
+
+        this.currentIndex = 0;
+        this.batchSize = 6;
+        this.loading = false;
+        this.currentCategory = 'all';
+
     }
 
-    connectedCallback() {
+
+    async connectedCallback() {
         document.documentElement.style.setProperty("--dynamic-background", "black");
         this.loadFavoriteBlogs();
         this.getLoggedInUser();
-        this.fetchBlogs();
+         await this.fetchBlogs();
+
         this.shadowRoot.addEventListener("click", this.handleBlogClick);
+
+        this.blogsContainer = this.shadowRoot.querySelector(".blog-articles-container");
+        this.categoryBtns = this.shadowRoot.querySelectorAll(".blog-layout__btn");
+        this.sentinel = this.shadowRoot.getElementById("scroll-sentinel");
+
+        this.displayedBlogs = [...this.allBlogs];
+        this.currentIndex = 0;
+        this.blogsContainer.innerHTML = "";
+
+        this.setUpIntersectionObserver();
+        this.showNextBatch();
+
     }
 
     disconnectedCallback() {
@@ -98,7 +126,7 @@ class BlogPage extends HTMLElement {
             const response = await fetch('http://localhost:3000/api/blogs');
             if (response.ok) {
                 const blogs = await response.json();
-                this.renderBlogs(blogs);
+                this.allBlogs = blogs;
             } else {
                 console.error("Error al obtener blogs:", response.status, await response.json());
                 this.blogsContainer.innerHTML = "<p>No se pudieron cargar los blogs.</p>";
@@ -109,15 +137,51 @@ class BlogPage extends HTMLElement {
         }
     }
 
-    renderBlogs(blogs) {
-        this.blogsContainer.innerHTML = "";
-
-        if (blogs.length === 0) {
-            this.blogsContainer.innerHTML = "<p>No hay blogs disponibles en este momento.</p>";
-            return;
+    setUpIntersectionObserver() {
+        if(this.observer){
+            this.observer.disconnect();
         }
 
-        blogs.forEach(blog => {
+        this.observer = new IntersectionObserver((entries) => { 
+            if(entries[0].isIntersecting && !this.loading){
+                this.showNextBatch();
+            }
+        }, {
+            root: this.blogsContainer, 
+            rootMargin: "0px 0px 150px 0px",
+            threshold: 0.1
+        });
+
+        if(this.sentinel){
+            this.observer.observe(this.sentinel);
+        }
+    }
+
+    showNextBatch(){ 
+        this.loading = true;
+
+        let startIndex = this.currentIndex;
+        let endIndex = startIndex + this.batchSize;
+
+        let batch;
+
+        if(startIndex >= this.displayedBlogs.length){   
+            this.currentIndex = 0; 
+            startIndex = this.currentIndex;
+            endIndex = startIndex + this.batchSize;
+        }
+
+        batch = this.displayedBlogs.slice(startIndex, endIndex);
+        if(batch.length < this.batchSize && this.displayedBlogs.length > 0){
+            const remainingNeed = this.batchSize - batch.length;
+            const repeatedPart = this.displayedBlogs.slice(0, remainingNeed);
+            batch = batch.concat(repeatedPart);
+            this.currentIndex = remainingNeed;
+        } else {
+            this.currentIndex = endIndex;
+        }
+
+        batch.forEach(blog => {
             const clone = blogItemTemplate.content.cloneNode(true);
             const blogArticleElement = clone.querySelector('.blog-article');
 
@@ -145,9 +209,58 @@ class BlogPage extends HTMLElement {
                 editButton.style.display = 'none';
             }
             
-            this.blogsContainer.appendChild(clone);
+            this.blogsContainer.appendChild(clone);            
         });
+
+        if(this.observer && this.sentinel){ 
+            this.observer.unobserve(this.sentinel);
+            this.blogsContainer.appendChild(this.sentinel);
+            this.observer.observe(this.sentinel);
+        }
+
+        this.loading = false;
+
     }
+
+    // renderBlogs(blogs) {
+    //     this.blogsContainer.innerHTML = "";
+
+    //     if (blogs.length === 0) {
+    //         this.blogsContainer.innerHTML = "<p>No hay blogs disponibles en este momento.</p>";
+    //         return;
+    //     }
+
+    //     blogs.forEach(blog => {
+    //         const clone = blogItemTemplate.content.cloneNode(true);
+    //         const blogArticleElement = clone.querySelector('.blog-article');
+
+    //         blogArticleElement.dataset.blogId = blog.id;
+    //         blogArticleElement.dataset.authorId = blog.author_id;
+
+    //         clone.querySelector('.blog-article__image').src = blog.img;
+
+    //         clone.querySelector('#fecha-articulo-clone').textContent = new Date(blog.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }).toUpperCase();
+    //         clone.querySelector('#titulo-articulo-clone').textContent = blog.title;
+    //         clone.querySelector('#description-articulo-clone').textContent = blog.description;
+    //         clone.querySelector('#author-articulo-clone').textContent = `Author: ${blog.users?.name || 'Desconocido'}`;
+
+    //         const favoriteButton = clone.querySelector('.favorite-button');
+    //         if (this.favoriteBlogs.has(blog.id)) {
+    //             favoriteButton.classList.add('active');
+    //         }
+    //         favoriteButton.dataset.blogId = blog.id;
+
+    //         const editButton = clone.querySelector('.edit-button');
+    //         if (this.loggedInUserId && this.loggedInUserId === blog.author_id) {
+    //             editButton.style.display = 'inline-block';
+    //             editButton.dataset.blogId = blog.id;
+    //         } else {
+    //             editButton.style.display = 'none';
+    //         }
+            
+    //         this.blogsContainer.appendChild(clone);
+    //     });
+    // }
 
     handleBlogClick = async (event) => {
         const favoriteButton = event.target.closest('.favorite-button');
